@@ -22,11 +22,12 @@ import useUpdateLocation from './hooks/useUpdateLocation'
 import TrackOrderPage from './pages/TrackOrderPage'
 import Shop from './pages/Shop'
 import ContactUs from './pages/ContactUs'
+import Profile from './pages/Profile'
 import { useEffect } from 'react'
 import { io } from 'socket.io-client'
 import { setSocket } from './redux/userSlice'
 
-export const serverUrl="http://localhost:8000"
+export const serverUrl="http://localhost:5000"
 function App() {
     const {userData}=useSelector(state=>state.user)
     const dispatch=useDispatch()
@@ -67,8 +68,10 @@ return ()=>{
 <Route path='/my-orders' element={userData?<MyOrders/>:<Navigate to={"/signin"}/>}/>
 <Route path='/track-order/:orderId' element={userData?<TrackOrderPage/>:<Navigate to={"/signin"}/>}/>
 <Route path='/shop/:shopId' element={userData?<Shop/>:<Navigate to={"/signin"}/>}/>
+<Route path='/profile' element={userData?<Profile/>:<Navigate to={"/signin"}/>}/>
    </Routes>
   )
 }
 
 export default App
+

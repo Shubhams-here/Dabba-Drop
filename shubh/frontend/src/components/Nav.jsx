@@ -102,9 +102,19 @@ handleSearchItems()
            
 
 
-                <button className='hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium' onClick={()=>navigate("/my-orders")}>
-                    My Orders
-                </button>
+                 <button className='hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/25 transition-all cursor-pointer shadow-sm active:scale-97' onClick={()=>navigate("/my-orders")}>
+                     My Orders
+                 </button>
+                 {userData.role === "user" && (
+                     <>
+                         <button className='hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/25 transition-all cursor-pointer shadow-sm active:scale-97' onClick={()=>navigate("/profile", { state: { scrollTo: "offers" } })}>
+                             Offers
+                         </button>
+                         <button className='hidden md:block px-3 py-1 rounded-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium hover:bg-[#ff4d2d]/25 transition-all cursor-pointer shadow-sm active:scale-97' onClick={()=>navigate("/profile", { state: { scrollTo: "help" } })}>
+                             Help & Support
+                         </button>
+                     </>
+                 )}
                     </>
                 )}
 
@@ -116,7 +126,14 @@ handleSearchItems()
                 {showInfo && <div className={`fixed top-[80px] right-[10px] 
                     ${userData.role=="deliveryBoy"?"md:right-[20%] lg:right-[40%]":"md:right-[10%] lg:right-[25%]"} w-[180px] bg-white shadow-2xl rounded-xl p-[20px] flex flex-col gap-[10px] z-[9999]`}>
                     <div className='text-[17px] font-semibold'>{userData.fullName}</div>
-                    {userData.role=="user" && <div className='md:hidden text-[#ff4d2d] font-semibold cursor-pointer' onClick={()=>navigate("/my-orders")}>My Orders</div>}
+                    <div className='text-gray-700 font-semibold cursor-pointer hover:text-[#ff4d2d] transition-colors' onClick={() => { setShowInfo(false); navigate("/profile"); }}>My Profile</div>
+                    {userData.role == "user" && (
+                        <>
+                            <div className='md:hidden text-gray-700 font-semibold cursor-pointer hover:text-[#ff4d2d] transition-colors' onClick={()=>{ setShowInfo(false); navigate("/my-orders"); }}>My Orders</div>
+                            <div className='text-gray-700 font-semibold cursor-pointer hover:text-[#ff4d2d] transition-colors' onClick={()=>{ setShowInfo(false); navigate("/profile", { state: { scrollTo: "offers" } }); }}>Offers</div>
+                            <div className='text-gray-700 font-semibold cursor-pointer hover:text-[#ff4d2d] transition-colors' onClick={()=>{ setShowInfo(false); navigate("/profile", { state: { scrollTo: "help" } }); }}>Help & Support</div>
+                        </>
+                    )}
                     
                     <div className='text-[#ff4d2d] font-semibold cursor-pointer' onClick={handleLogOut}>Log Out</div>
                 </div>}

@@ -3,7 +3,10 @@ import uploadOnCloudinary from "../utils/cloudinary.js";
 
 export const createEditShop=async (req,res) => {
     try {
-       const {name,city,state,address}=req.body
+       const name = req.body.name?.trim();
+       const city = req.body.city?.trim();
+       const state = req.body.state?.trim();
+       const address = req.body.address?.trim();
        let image;
        if(req.file){
         console.log(req.file)
@@ -45,10 +48,14 @@ export const getMyShop=async (req,res) => {
 export const getShopByCity=async (req,res) => {
     try {
         const {city}=req.params
+        const trimmedCity = city ? city.trim() : "";
 
+        console.log(`[getShopByCity] Querying shops for city: "${city}" (trimmed: "${trimmedCity}")`);
         const shops=await Shop.find({
-            city:{$regex:new RegExp(`^${city}$`, "i")}
+            city:{$regex:new RegExp(`^\\s*${trimmedCity}\\s*$`, "i")}
         }).populate('items')
+        
+        console.log(`[getShopByCity] Found ${shops?.length || 0} shops.`);
         if(!shops){
             return res.status(400).json({message:"shops not found"})
         }
